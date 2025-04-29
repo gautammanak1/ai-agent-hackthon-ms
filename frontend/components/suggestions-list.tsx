@@ -37,7 +37,7 @@ export function SuggestionsList({ suggestions }: SuggestionsListProps) {
       <CardHeader>
         <CardTitle>Improvement Suggestions</CardTitle>
         <CardDescription>
-          Recommendations to improve your resume's ATS compatibility and overall quality
+          Recommendations to improve your resume&apos;s ATS compatibility and overall quality
         </CardDescription>
         <div className="flex flex-wrap gap-2 mt-4">
           <Button 

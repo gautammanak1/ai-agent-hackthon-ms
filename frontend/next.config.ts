@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  webpack: (config, { isServer }) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  webpack: (config: { resolve: { alias: { [x: string]: boolean; }; extensions: string[]; }; module: { rules: { test: RegExp; use: string; }[]; }; }, { isServer }: any) => {
     // Ignore canvas and .node files in the browser
     if (!isServer) {
       config.resolve.alias["canvas"] = false;

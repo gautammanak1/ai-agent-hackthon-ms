@@ -185,6 +185,7 @@ export async function POST(req: Request) {
     const jobTitle = analysisResult.skills[0] || 'software developer';
     try {
       const jobData = await getJobRecommendations(jobTitle);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       analysisResult.jobRecommendations = jobData.data.map((job: any, index: number) => ({
         id: index + 1,
         title: job.job_title || 'Software Developer',

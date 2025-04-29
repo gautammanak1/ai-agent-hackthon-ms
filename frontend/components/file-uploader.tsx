@@ -44,12 +44,14 @@ export function FileUploader({ onChange, file }: FileUploaderProps) {
         const page = await pdf.getPage(i);
         const textContent = await page.getTextContent();
         const pageText = textContent.items
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
           .map((item: any) => item.str || "") // Handle potential undefined str
           .join(" ");
         fullText += pageText + "\n";
       }
 
       return fullText;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Error extracting PDF text:", error);
       if (error.message.includes("API version")) {
