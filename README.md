@@ -1,11 +1,13 @@
-# ai-agent-hackthon-ms
-
 # 🎯 CareerPilot – Smart Career Companion
 
-# 🏆 Categories We're Targeting - Microsoft AI Skill Fest 2025
-🥇 Best Overall Agent – $20,000
-🟨 Best Agent in JavaScript – $5,000
-🔵 Best Azure AI Agent Service Usage – $5,000
+
+**🏆 Categories We're Targeting - Microsoft AI Skill Fest 2025**
+- 🥇 Best Overall Agent – $20,000
+- 🟨 Best Agent in JavaScript – $5,000
+- 🔵 Best Azure AI Agent Service Usage – $5,000
+
+  
+
 
 
 ## 🧠 Overview
@@ -55,11 +57,12 @@ All powered by **Next.js + Azure AI + Cosmos DB**, deployed via **Azure Static W
 ### 🧭 Skill Guidance
 - Suggests learning paths based on job interest
 - Maps gaps between your profile & job needs
-
-**☁️ Azure Setup**
+  
+  
+# ☁️ Azure Setup
 
 | Component            | Service Used                    |
-----------------------------------------------------------
+|----------------------|----------------------------------|
 | Frontend Hosting      | Azure Static Web Apps          |
 | Backend API           | Next.js API Routes (Serverless)|
 | Database              | Azure Cosmos DB (MongoDB API)  |
@@ -68,10 +71,10 @@ All powered by **Next.js + Azure AI + Cosmos DB**, deployed via **Azure Static W
 
 
 
-**🤖 Agent Highlights (for Skill Fest)**
+# 🤖 Agent Highlights (for Skill Fest)
 
 | Agent               | Capability                            |
----------------------------------------------------------------
+|----------------------|----------------------------------|
 | ATSScannerAgent    | Resume evaluation and suggestions      |
 | JobMatchAgent      | Personalized job recommendations       |
 | MockInterviewAgent | AI-based interview simulation          |
@@ -80,19 +83,25 @@ All powered by **Next.js + Azure AI + Cosmos DB**, deployed via **Azure Static W
 
 
 
-**📸 Screenshots**
+# 📸 Screenshots
 
 
 
 
 
-**📣 Credits**
-Built by:
-🧑‍💻 Gautam Manak (gautammanak1), Priyanshi Rami (pr-Github), Mahak Gupta ()
-🎓 For: Microsoft AI Skill Fest 2025
-
-**📬 Contact**
-Feel free to reach out via LinkedIn or contact us on
+# 📣 Credits  
+Built by:  
+🧑‍💻 Gautam Manak (gautammanak1)  
+🧑‍💻 Priyanshi Rami (pr-Git-hub)  
+🧑‍💻 Mahak Gupta ()  
+  
+🎓 For: Microsoft AI Skill Fest 2025  
+  
+# 📬 Contact
+Feel free to reach out via LinkedIn or Email  
+Gautam Manak - | https://www.linkedin.com/in/gautammanak1/  
+Priyanshi Rami - pr.7140@gmail.com | https://www.linkedin.com/in/prami24/  
+Mahak Gupta - |
 
 
 
