@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import {
   IconCamera,
   IconChartBar,
@@ -12,17 +13,12 @@ import {
   IconFolder,
   IconHelp,
   IconInnerShadowTop,
-  IconListDetails,
   IconReport,
   IconSearch,
   IconSettings,
   IconUsers,
 } from "@tabler/icons-react"
-
-import { NavDocuments } from "@/components/nav-documents"
-import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
-import { NavUser } from "@/components/nav-user"
+import { Briefcase } from "lucide-react"
 import {
   Sidebar,
   SidebarContent,
@@ -32,6 +28,10 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
+import { NavDocuments } from "@/components/nav-documents"
+import { NavSecondary } from "@/components/nav-secondary"
+import { NavUser } from "@/components/nav-user"
+import { ModeToggle } from "./mode-toggle"
 
 const data = {
   user: {
@@ -41,28 +41,33 @@ const data = {
   },
   navMain: [
     {
-      title: "Dashboard",
-      url: "#",
+      title: "Home",
+      url: "/",
       icon: IconDashboard,
     },
     {
-      title: "Lifecycle",
-      url: "#",
-      icon: IconListDetails,
+      title: "History",
+      url: "/history",
+      icon: IconFileDescription,
     },
     {
-      title: "Analytics",
-      url: "#",
+      title: "Jobs",
+      url: "/jobs",
+      icon: Briefcase,
+    },
+    {
+      title: "Dashboard",
+      url: "/dashboard",
       icon: IconChartBar,
     },
     {
       title: "Projects",
-      url: "#",
+      url: "/projects",
       icon: IconFolder,
     },
     {
       title: "Team",
-      url: "#",
+      url: "/team",
       icon: IconUsers,
     },
   ],
@@ -117,37 +122,58 @@ const data = {
   navSecondary: [
     {
       title: "Settings",
-      url: "#",
+      url: "/settings",
       icon: IconSettings,
     },
     {
       title: "Get Help",
-      url: "#",
+      url: "/help",
       icon: IconHelp,
     },
     {
       title: "Search",
-      url: "#",
+      url: "/search",
       icon: IconSearch,
     },
   ],
   documents: [
     {
       name: "Data Library",
-      url: "#",
+      url: "/data-library",
       icon: IconDatabase,
     },
     {
       name: "Reports",
-      url: "#",
+      url: "/reports",
       icon: IconReport,
     },
     {
       name: "Word Assistant",
-      url: "#",
+      url: "/word-assistant",
       icon: IconFileWord,
     },
   ],
+}
+
+// Custom NavMain component to ensure Link is used for navigation
+function NavMain({ items }: { items: { title: string; url: string; icon: React.ComponentType<{ className?: string }> }[] }) {
+  return (
+    <SidebarMenu>
+      {items.map((item) => (
+        <SidebarMenuItem key={item.title}>
+          <SidebarMenuButton asChild>
+            <Link
+              href={item.url}
+              className="flex items-center gap-2 text-sm font-medium text-muted-foreground transition-colors hover:text-primary"
+            >
+              <item.icon className="h-5 w-5" />
+              <span>{item.title}</span>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      ))}
+    </SidebarMenu>
+  )
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -160,9 +186,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
-              <a href="#">
-                <IconInnerShadowTop className="!size-5" />
-                <span className="text-base font-semibold">Acme Inc.</span>
+             <a href="/" className="flex items-center gap-2">
+                <img
+                  src="/logo.png"
+                  alt="Acme Inc. Logo"
+                  className="h-25 w-25 object-contain"
+                />
               </a>
             </SidebarMenuButton>
           </SidebarMenuItem>
@@ -175,6 +204,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
+        <ModeToggle />
       </SidebarFooter>
     </Sidebar>
   )

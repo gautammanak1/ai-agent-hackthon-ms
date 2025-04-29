@@ -1,8 +1,20 @@
-import type { NextConfig } from "next";
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  webpack: (config, { isServer }) => {
+    // Ignore canvas and .node files in the browser
+    if (!isServer) {
+      config.resolve.alias["canvas"] = false;
+      config.resolve.extensions = [".js", ".jsx", ".ts", ".tsx"];
+    }
 
-const nextConfig: NextConfig = {
-  source: '/api/:path*',
-  destination: 'http://localhost:5000/api/:path*',
+    // Add rule to ignore .node files using null-loader
+    config.module.rules.push({
+      test: /\.node$/,
+      use: "null-loader",
+    });
+
+    return config;
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
