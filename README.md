@@ -99,7 +99,7 @@ Built by:
   
 # 📬 Contact
 Feel free to reach out via LinkedIn or Email  
-Gautam Manak - | https://www.linkedin.com/in/gautammanak1/  
+Gautam Manak - gautammanak1@gmail.com | https://www.linkedin.com/in/gautammanak1/  
 Priyanshi Rami - pr.7140@gmail.com | https://www.linkedin.com/in/prami24/  
 Mahak Gupta - |
 
