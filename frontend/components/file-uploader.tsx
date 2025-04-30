@@ -7,12 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { cn } from "@/lib/utils";
 import { useToast } from "@/hooks/use-toast";
+import * as pdfjsLib from "pdfjs-dist";
 
-
-
-
-import { type PDFDocumentProxy } from "pdfjs-dist";
-import pdfjsLib from "pdfjs-dist";
+// Ensure pdfjs-dist worker is loaded from public directory
+pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.js";
 
 interface FileUploaderProps {
   onChange: (file: File | null, text: string) => void;
@@ -30,14 +28,8 @@ export function FileUploader({ onChange, file }: FileUploaderProps) {
         throw new Error("PDF processing is not supported on the server");
       }
 
-      // Load pdfjs-dist
-      const pdfjs = pdfjsLib;
-
-      // Set worker source to match pdfjs-dist@3.11.174
-      pdfjs.GlobalWorkerOptions.workerSrc = "/pdf.worker.js"; // Ensure this file is from pdfjs-dist@3.11.174
-
       const arrayBuffer = await file.arrayBuffer();
-      const pdf: PDFDocumentProxy = await pdfjs.getDocument({ data: arrayBuffer }).promise;
+      const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
       let fullText = "";
 
       for (let i = 1; i <= pdf.numPages; i++) {
@@ -54,24 +46,18 @@ export function FileUploader({ onChange, file }: FileUploaderProps) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       console.error("Error extracting PDF text:", error);
-      if (error.message.includes("API version")) {
-        toast({
-          title: "PDF Processing Error",
-          description: "PDF worker version mismatch. Please contact support or try again later.",
-          variant: "destructive",
-        });
-      } else {
-        toast({
-          title: "PDF Processing Error",
-          description: "Failed to extract text from PDF. Please try again.",
-          variant: "destructive",
-        });
-      }
+      toast({
+        title: "PDF Processing Error",
+        description:
+          error.message.includes("Worker was destroyed")
+            ? "PDF worker issue. Please refresh and try again."
+            : "Failed to extract text from PDF. Please try again.",
+        variant: "destructive",
+      });
       throw new Error("Failed to extract text from PDF");
     }
   };
 
-  
   const validateResumeContent = (text: string): boolean => {
     const resumeSections = [
       "experience",

@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "prebuild": "npm rebuild canvas",
-    "build": "next build",
+    "copy-pdf-worker": "node copy-pdf-worker.js",
+    "build": "npm run copy-pdf-worker && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -63,10 +63,12 @@
     "@types/pdfjs-dist": "^2.10.377",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "copy-webpack-plugin": "^13.0.0",
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
     "ignore-loader": "^0.1.2",
     "null-loader": "^4.0.1",
+    "raw-loader": "^4.0.2",
     "tailwindcss": "^4",
     "tw-animate-css": "^1.2.8",
     "typescript": "^5"
