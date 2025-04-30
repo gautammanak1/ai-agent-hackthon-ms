@@ -340,6 +340,191 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Tech Stack Section */}
+        <section id="tech" className="py-16 bg-white">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <AnimatedSection className="text-center mb-16">
+              <Badge className="mb-4 bg-purple-100 text-purple-800 hover:bg-purple-100">Technology</Badge>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Powered by Modern Tech</h2>
+              <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+                CareerPilot is built with cutting-edge technologies to provide a seamless and intelligent experience.
+              </p>
+            </AnimatedSection>
+
+            <AnimatedSection>
+              <Tabs defaultValue="frontend" className="max-w-3xl mx-auto">
+                <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
+                  <TabsTrigger value="frontend" className="transition-all hover:scale-105">
+                    Frontend
+                  </TabsTrigger>
+                  <TabsTrigger value="backend" className="transition-all hover:scale-105">
+                    Backend
+                  </TabsTrigger>
+                  <TabsTrigger value="ai" className="transition-all hover:scale-105">
+                    AI Services
+                  </TabsTrigger>
+                  <TabsTrigger value="devops" className="transition-all hover:scale-105">
+                    DevOps
+                  </TabsTrigger>
+                </TabsList>
+                <TabsContent value="frontend" className="mt-6">
+                  <Card className="transition-all hover:shadow-md duration-300">
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Code className="mr-2 h-5 w-5 text-black" />
+                        Frontend Stack
+                      </CardTitle>
+                      <CardDescription>Modern, responsive UI built with React and Tailwind CSS</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="space-y-2">
+                        <li className="flex items-center">
+                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">React</Badge>
+                          <span className="text-slate-600">Component-based UI library</span>
+                        </li>
+                        <li className="flex items-center">
+                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">Next.js</Badge>
+                          <span className="text-slate-600">React framework with SSR and API routes</span>
+                        </li>
+                        <li className="flex items-center">
+                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">Tailwind CSS</Badge>
+                          <span className="text-slate-600">Utility-first CSS framework</span>
+                        </li>
+                        <li className="flex items-center">
+                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">TypeScript</Badge>
+                          <span className="text-slate-600">Type-safe JavaScript</span>
+                        </li>
+                      </ul>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+                <TabsContent value="backend" className="mt-6">
+                  <Card className="transition-all hover:shadow-md duration-300">
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Server className="mr-2 h-5 w-5 text-black" />
+                        Backend Stack
+                      </CardTitle>
+                      <CardDescription>Serverless architecture for scalability and performance</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="space-y-2">
+                        <li className="flex items-center">
+                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">
+                            Next.js API Routes
+                          </Badge>
+                          <span className="text-slate-600">Serverless functions for backend logic</span>
+                        </li>
+                        <li className="flex items-center">
+                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">Azure Cosmos DB</Badge>
+                          <span className="text-slate-600">MongoDB API for data storage</span>
+                        </li>
+                        <li className="flex items-center">
+                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">
+                            Azure Static Web Apps
+                          </Badge>
+                          <span className="text-slate-600">Hosting and serverless backend</span>
+                        </li>
+                      </ul>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+                <TabsContent value="ai" className="mt-6">
+                  <Card className="transition-all hover:shadow-md duration-300">
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Brain className="mr-2 h-5 w-5 text-black" />
+                        AI Services
+                      </CardTitle>
+                      <CardDescription>Cutting-edge AI models for intelligent features</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="space-y-2">
+                        <li className="flex items-center">
+                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">Azure OpenAI</Badge>
+                          <span className="text-slate-600">
+                            Advanced language models for text generation and analysis
+                          </span>
+                        </li>
+                        <li className="flex items-center">
+                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">ATSScannerAgent</Badge>
+                          <span className="text-slate-600">Resume evaluation and suggestions</span>
+                        </li>
+                        <li className="flex items-center">
+                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">JobMatchAgent</Badge>
+                          <span className="text-slate-600">Personalized job recommendations</span>
+                        </li>
+                        <li className="flex items-center">
+                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">
+                            MockInterviewAgent
+                          </Badge>
+                          <span className="text-slate-600">AI-based interview simulation</span>
+                        </li>
+                      </ul>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+                <TabsContent value="devops" className="mt-6">
+                  <Card className="transition-all hover:shadow-md duration-300">
+                    <CardHeader>
+                      <CardTitle className="flex items-center">
+                        <Cpu className="mr-2 h-5 w-5 text-black" />
+                        DevOps & Infrastructure
+                      </CardTitle>
+                      <CardDescription>Automated deployment and cloud infrastructure</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <ul className="space-y-2">
+                        <li className="flex items-center">
+                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">GitHub Actions</Badge>
+                          <span className="text-slate-600">CI/CD pipeline for automated deployment</span>
+                        </li>
+                        <li className="flex items-center">
+                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">
+                            Azure Static Web Apps
+                          </Badge>
+                          <span className="text-slate-600">Hosting and serverless backend</span>
+                        </li>
+                        <li className="flex items-center">
+                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">Azure Cloud</Badge>
+                          <span className="text-slate-600">Cloud infrastructure and services</span>
+                        </li>
+                      </ul>
+                    </CardContent>
+                  </Card>
+                </TabsContent>
+              </Tabs>
+            </AnimatedSection>
+          </div>
+        </section>
+
+        {/* Architecture Diagram */}
+        <section className="py-16 bg-slate-50">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <AnimatedSection className="text-center mb-12">
+              <Badge className="mb-4 bg-purple-100 text-purple-800 hover:bg-purple-100">Architecture</Badge>
+              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">How It All Works Together</h2>
+              <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+                CareerPilot&apos;s architecture leverages Azure&apos;s powerful cloud services for a scalable, reliable
+                experience.
+              </p>
+            </AnimatedSection>
+
+            <AnimatedSection delay={200}>
+              <div className="max-w-4xl mx-auto bg-white p-6 rounded-xl border border-slate-200 transition-all hover:shadow-xl duration-500 hover:scale-[1.02]">
+                <div className="aspect-[16/9] relative">
+                  <Image
+                    src="/diagram.png?height=900&width=1600"
+                    alt="CareerPilot Architecture Diagram"
+                    fill
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+            </AnimatedSection>
+          </div>
+        </section>
+
         {/* How It Works Section */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -565,190 +750,9 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Tech Stack Section */}
-        <section id="tech" className="py-16 bg-white">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <AnimatedSection className="text-center mb-16">
-              <Badge className="mb-4 bg-purple-100 text-purple-800 hover:bg-purple-100">Technology</Badge>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">Powered by Modern Tech</h2>
-              <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                CareerPilot is built with cutting-edge technologies to provide a seamless and intelligent experience.
-              </p>
-            </AnimatedSection>
 
-            <AnimatedSection>
-              <Tabs defaultValue="frontend" className="max-w-3xl mx-auto">
-                <TabsList className="grid w-full grid-cols-2 md:grid-cols-4">
-                  <TabsTrigger value="frontend" className="transition-all hover:scale-105">
-                    Frontend
-                  </TabsTrigger>
-                  <TabsTrigger value="backend" className="transition-all hover:scale-105">
-                    Backend
-                  </TabsTrigger>
-                  <TabsTrigger value="ai" className="transition-all hover:scale-105">
-                    AI Services
-                  </TabsTrigger>
-                  <TabsTrigger value="devops" className="transition-all hover:scale-105">
-                    DevOps
-                  </TabsTrigger>
-                </TabsList>
-                <TabsContent value="frontend" className="mt-6">
-                  <Card className="transition-all hover:shadow-md duration-300">
-                    <CardHeader>
-                      <CardTitle className="flex items-center">
-                        <Code className="mr-2 h-5 w-5 text-black" />
-                        Frontend Stack
-                      </CardTitle>
-                      <CardDescription>Modern, responsive UI built with React and Tailwind CSS</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <ul className="space-y-2">
-                        <li className="flex items-center">
-                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">React</Badge>
-                          <span className="text-slate-600">Component-based UI library</span>
-                        </li>
-                        <li className="flex items-center">
-                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">Next.js</Badge>
-                          <span className="text-slate-600">React framework with SSR and API routes</span>
-                        </li>
-                        <li className="flex items-center">
-                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">Tailwind CSS</Badge>
-                          <span className="text-slate-600">Utility-first CSS framework</span>
-                        </li>
-                        <li className="flex items-center">
-                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">TypeScript</Badge>
-                          <span className="text-slate-600">Type-safe JavaScript</span>
-                        </li>
-                      </ul>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-                <TabsContent value="backend" className="mt-6">
-                  <Card className="transition-all hover:shadow-md duration-300">
-                    <CardHeader>
-                      <CardTitle className="flex items-center">
-                        <Server className="mr-2 h-5 w-5 text-black" />
-                        Backend Stack
-                      </CardTitle>
-                      <CardDescription>Serverless architecture for scalability and performance</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <ul className="space-y-2">
-                        <li className="flex items-center">
-                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">
-                            Next.js API Routes
-                          </Badge>
-                          <span className="text-slate-600">Serverless functions for backend logic</span>
-                        </li>
-                        <li className="flex items-center">
-                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">Azure Cosmos DB</Badge>
-                          <span className="text-slate-600">MongoDB API for data storage</span>
-                        </li>
-                        <li className="flex items-center">
-                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">
-                            Azure Static Web Apps
-                          </Badge>
-                          <span className="text-slate-600">Hosting and serverless backend</span>
-                        </li>
-                      </ul>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-                <TabsContent value="ai" className="mt-6">
-                  <Card className="transition-all hover:shadow-md duration-300">
-                    <CardHeader>
-                      <CardTitle className="flex items-center">
-                        <Brain className="mr-2 h-5 w-5 text-black" />
-                        AI Services
-                      </CardTitle>
-                      <CardDescription>Cutting-edge AI models for intelligent features</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <ul className="space-y-2">
-                        <li className="flex items-center">
-                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">Azure OpenAI</Badge>
-                          <span className="text-slate-600">
-                            Advanced language models for text generation and analysis
-                          </span>
-                        </li>
-                        <li className="flex items-center">
-                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">ATSScannerAgent</Badge>
-                          <span className="text-slate-600">Resume evaluation and suggestions</span>
-                        </li>
-                        <li className="flex items-center">
-                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">JobMatchAgent</Badge>
-                          <span className="text-slate-600">Personalized job recommendations</span>
-                        </li>
-                        <li className="flex items-center">
-                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">
-                            MockInterviewAgent
-                          </Badge>
-                          <span className="text-slate-600">AI-based interview simulation</span>
-                        </li>
-                      </ul>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-                <TabsContent value="devops" className="mt-6">
-                  <Card className="transition-all hover:shadow-md duration-300">
-                    <CardHeader>
-                      <CardTitle className="flex items-center">
-                        <Cpu className="mr-2 h-5 w-5 text-black" />
-                        DevOps & Infrastructure
-                      </CardTitle>
-                      <CardDescription>Automated deployment and cloud infrastructure</CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <ul className="space-y-2">
-                        <li className="flex items-center">
-                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">GitHub Actions</Badge>
-                          <span className="text-slate-600">CI/CD pipeline for automated deployment</span>
-                        </li>
-                        <li className="flex items-center">
-                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">
-                            Azure Static Web Apps
-                          </Badge>
-                          <span className="text-slate-600">Hosting and serverless backend</span>
-                        </li>
-                        <li className="flex items-center">
-                          <Badge className="mr-2 bg-slate-200 text-slate-800 hover:bg-slate-200">Azure Cloud</Badge>
-                          <span className="text-slate-600">Cloud infrastructure and services</span>
-                        </li>
-                      </ul>
-                    </CardContent>
-                  </Card>
-                </TabsContent>
-              </Tabs>
-            </AnimatedSection>
-          </div>
-        </section>
 
-        {/* Architecture Diagram */}
-        <section className="py-16 bg-slate-50">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-            <AnimatedSection className="text-center mb-12">
-              <Badge className="mb-4 bg-purple-100 text-purple-800 hover:bg-purple-100">Architecture</Badge>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">How It All Works Together</h2>
-              <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-                CareerPilot&apos;s architecture leverages Azure&apos;s powerful cloud services for a scalable, reliable
-                experience.
-              </p>
-            </AnimatedSection>
 
-            <AnimatedSection delay={200}>
-              <div className="max-w-4xl mx-auto bg-white p-6 rounded-xl border border-slate-200 transition-all hover:shadow-xl duration-500 hover:scale-[1.02]">
-                <div className="aspect-[16/9] relative">
-                  <Image
-                    src="/diagram.png?height=900&width=1600"
-                    alt="CareerPilot Architecture Diagram"
-                    fill
-                    className="object-contain"
-                  />
-                </div>
-              </div>
-            </AnimatedSection>
-          </div>
-        </section>
 
         {/* FAQ Section */}
         <section className="py-16 bg-white">
@@ -972,7 +976,7 @@ export default function Home() {
                 <Card className="border-slate-200 transition-all hover:shadow-xl hover:-translate-y-3 duration-300 overflow-hidden">
                   <div className="aspect-square relative overflow-hidden">
                     <Image
-                      src="/placeholder.svg?height=400&width=400"
+                      src="/priyanshi.jpg?height=400&width=400"
                       alt="Priyanshi Rami"
                       fill
                       className="object-cover transition-transform duration-700 hover:scale-110"
@@ -980,7 +984,7 @@ export default function Home() {
                   </div>
                   <CardHeader>
                     <CardTitle>Priyanshi Rami</CardTitle>
-                    <CardDescription> Azure Developer</CardDescription>
+                    <CardDescription> AI & Azure Developer</CardDescription>
                   </CardHeader>
                   <CardContent className="pt-0">
                     <div className="flex space-x-3">
