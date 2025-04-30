@@ -43,8 +43,7 @@ All powered by **Next.js + Azure AI + Cosmos DB**, deployed via **Azure Static W
 - Highlights improvements for ATS compatibility
 
 ### 🧠 Job Matching & Recommendation
-- Matches your profile with trending jobs
-- 
+- Matches your profile with trending jobs  
 
 ### 🗣️ Mock Interviews
 - Role-specific AI interviews
@@ -93,7 +92,7 @@ All powered by **Next.js + Azure AI + Cosmos DB**, deployed via **Azure Static W
 Built by:  
 🧑‍💻 Gautam Manak (gautammanak1)  
 🧑‍💻 Priyanshi Rami (pr-Git-hub)  
-🧑‍💻 Mahak Gupta ()  
+🧑‍💻 Mayankpanchal21 (Mayankpanchal21)
   
 🎓 For: Microsoft AI Skill Fest 2025  
   
@@ -101,7 +100,7 @@ Built by:
 Feel free to reach out via LinkedIn or Email  
 Gautam Manak - gautammanak1@gmail.com | https://www.linkedin.com/in/gautammanak1/  
 Priyanshi Rami - pr.7140@gmail.com | https://www.linkedin.com/in/prami24/  
-Mahak Gupta - |
+Mayank Panchal
 
 
 
