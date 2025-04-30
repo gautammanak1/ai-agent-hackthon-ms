@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "copy-pdf-worker": "node copy-pdf-worker.js",
-    "build": "npm run copy-pdf-worker && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -44,11 +43,8 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dotenv": "^16.5.0",
-
     "framer-motion": "^12.9.2",
-
     "html2pdf.js": "^0.10.3",
-
     "jspdf": "^3.0.1",
     "lucide-react": "^0.503.0",
     "mongodb": "^6.16.0",
@@ -62,6 +58,7 @@
     "react-dom": "^19.1.0",
     "react-dropzone": "^14.3.8",
     "react-hook-form": "^7.56.1",
+    "react-speech-recognition": "^4.0.1",
     "recharts": "^2.15.3",
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.2.0",
