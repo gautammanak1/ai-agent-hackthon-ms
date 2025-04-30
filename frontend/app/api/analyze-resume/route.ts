@@ -1,17 +1,53 @@
 import { getJobRecommendations } from '@/lib/resume-analyzer';
 import { Configuration, OpenAIApi } from 'openai-edge';
 
+// Define the AnalysisResultType interface
+interface AnalysisResultType {
+  atsScore: number;
+  formatScore: number;
+  keywordCount: number;
+  yearsOfExperience: number;
+  educationLevel: string;
+  jobMatchScore: number;
+  skills: string[];
+  scoreBreakdown: {
+    category: string;
+    score: number;
+    description: string;
+  }[];
+  improvementSuggestions: {
+    title: string;
+    description: string;
+    section: string;
+    priority: 'high' | 'medium' | 'low';
+    examples?: string[];
+  }[];
+  jobRecommendations: {
+    id: number;
+    title: string;
+    company: string;
+    location: string;
+    description: string;
+    matchPercentage: number;
+    skills: string[];
+  }[];
+}
+
+// Configure OpenAI API
 const config = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(config);
 
+// Specify runtime for Next.js edge functions
 export const runtime = 'edge';
 
 export async function POST(req: Request) {
   try {
+    // Parse request body
     const { resumeText } = await req.json();
 
+    // Validate resume text
     if (!resumeText || resumeText.trim().length === 0) {
       return new Response(
         JSON.stringify({ error: 'Resume text is required' }),
@@ -19,10 +55,12 @@ export async function POST(req: Request) {
       );
     }
 
+    // Check for OpenAI API key
     if (!process.env.OPENAI_API_KEY) {
       throw new Error('OPENAI_API_KEY is not configured');
     }
 
+    // Define the prompt for OpenAI
     const prompt = `
       You are an expert ATS and resume analyzer. Analyze the following resume and provide a detailed assessment as a JSON object that strictly follows this TypeScript interface:
 
@@ -145,16 +183,18 @@ export async function POST(req: Request) {
       \`\`\`
     `;
 
+    // Call OpenAI API
     const response = await openai.createChatCompletion({
       model: 'gpt-3.5-turbo',
       messages: [
         { role: 'system', content: 'You are an expert ATS and resume analyzer.' },
-        { role: 'user', content: prompt }
+        { role: 'user', content: prompt },
       ],
       temperature: 0.5,
       max_tokens: 3000,
     });
 
+    // Check for API response errors
     if (!response.ok) {
       const errorData = await response.json();
       console.error('OpenAI API Error:', errorData);
@@ -164,24 +204,25 @@ export async function POST(req: Request) {
     const data = await response.json();
     console.log('OpenAI Response:', data);
 
+    // Validate response structure
     if (!data.choices || !data.choices[0]?.message?.content) {
       throw new Error('Invalid OpenAI response structure');
     }
 
-    let analysisResult;
+    // Parse JSON response with explicit type
+    let analysisResult: AnalysisResultType;
     try {
-      // Extract JSON from markdown code block (if present)
       const content = data.choices[0].message.content;
       const jsonMatch = content.match(/```json\n([\s\S]*?)\n```/);
       const jsonString = jsonMatch ? jsonMatch[1] : content;
-      analysisResult = JSON.parse(jsonString);
+      analysisResult = JSON.parse(jsonString) as AnalysisResultType;
     } catch (parseError) {
       console.error('JSON Parse Error:', parseError);
       console.error('Response Content:', data.choices[0].message.content);
       throw new Error('Failed to parse OpenAI response');
     }
 
-    // Fetch job recommendations using getJobRecommendations
+    // Fetch job recommendations
     const jobTitle = analysisResult.skills[0] || 'software developer';
     try {
       const jobData = await getJobRecommendations(jobTitle);
@@ -193,18 +234,19 @@ export async function POST(req: Request) {
         location: job.location || 'Remote',
         description: job.job_description || 'Position available for experienced professional',
         matchPercentage: Math.floor(Math.random() * 30) + 70,
-        skills: analysisResult.skills.slice(0, 5)
+        skills: analysisResult.skills.slice(0, 5),
       }));
     } catch (jobError) {
       console.warn('RapidAPI job search failed:', jobError);
       analysisResult.jobRecommendations = analysisResult.jobRecommendations || [];
     }
 
+    // Return successful response
     return new Response(JSON.stringify(analysisResult), {
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
     });
-
   } catch (error) {
+    // Handle errors
     console.error('Error in resume analysis:', error);
     return new Response(
       JSON.stringify({ error: (error as Error).message || 'Failed to analyze resume' }),
