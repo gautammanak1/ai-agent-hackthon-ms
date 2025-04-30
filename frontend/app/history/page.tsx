@@ -166,7 +166,7 @@ export default function HistoryPage() {
                       <p className="text-sm text-muted-foreground">ATS Score</p>
                       <p className="text-2xl font-bold">{entry.score}%</p>
                     </div>
-                    <Link href={`/`} className="w-full max-w-[120px]">
+                    <Link href={`/atsresume`} className="w-full max-w-[120px]">
                       <Button variant="outline" className="w-full" size="sm">
                         <ExternalLink className="h-4 w-4 mr-2" />
                         View
