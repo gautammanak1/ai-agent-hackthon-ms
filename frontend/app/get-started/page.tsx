@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ProfileForm } from '@/components/interview/profile-form';
 import { useInterview } from '@/lib/contexts/interview-context';
 import { InterviewType, UserProfile } from '@/lib/types';
-import { Code,BriefcaseBusiness,BookOpen, ArrowLeft, Users } from 'lucide-react';
+import { ArrowLeft, Users } from 'lucide-react';
 import Link from 'next/link';
 import { InterviewProvider } from '@/lib/contexts/interview-context';
 // side navbar

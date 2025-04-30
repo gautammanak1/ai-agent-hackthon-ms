@@ -1,6 +1,5 @@
 import { ResumeAnalyzer } from "@/components/resume-analyzer";
 import { AppSidebar } from "@/components/app-sidebar"
-import RoadmapGenerator from "@/components/roadmap-generator"
 import { SiteHeader } from "@/components/site-header"
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 

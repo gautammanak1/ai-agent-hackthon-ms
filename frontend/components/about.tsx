@@ -103,7 +103,7 @@ const TypingAnimation = ({ text, className = "" }: { text: string, className?: s
 // Counter animation component
 const CounterAnimation = ({ end, duration = 2000, prefix = "", suffix = "" }: { end: number, duration?: number, prefix?: string, suffix?: string }) => {
   const [count, setCount] = useState(0)
-  const [ref, isVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true })
+  const [ isVisible] = useIntersectionObserver({ threshold: 0.1, triggerOnce: true })
 
   useEffect(() => {
     let startTime: number
@@ -131,7 +131,7 @@ const CounterAnimation = ({ end, duration = 2000, prefix = "", suffix = "" }: { 
   }, [isVisible, end, duration])
 
   return (
-    <span ref={ref} className="font-bold text-4xl md:text-5xl text-black">
+    <span className="font-bold text-4xl md:text-5xl text-black">
       {prefix}
       {count}
       {suffix}

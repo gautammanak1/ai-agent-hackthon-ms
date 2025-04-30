@@ -1,35 +1,38 @@
 'use client';
 
-import { useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { UserProfile, InterviewType } from '@/lib/types';
 
+// Create a schema for the form
 const formSchema = z.object({
   name: z.string().min(2, { message: 'Name must be at least 2 characters.' }),
   email: z.string().email({ message: 'Please enter a valid email address.' }),
   jobTitle: z.string().min(2, { message: 'Job title must be at least 2 characters.' }),
   yearsOfExperience: z.coerce.number().min(0, { message: 'Experience must be a non-negative number.' }),
-  skills: z.string().transform((val) => val.split(',').map((s) => s.trim()).filter(Boolean)),
+  skills: z.string(), // Keep as string in the form
   targetRole: z.string().min(2, { message: 'Target role must be at least 2 characters.' }),
   industry: z.string().min(2, { message: 'Industry must be at least 2 characters.' }),
   interviewType: z.nativeEnum(InterviewType),
 });
 
+// Define the FormValues type based on the schema
+type FormValues = z.infer<typeof formSchema>;
+
+// Ensure UserProfile has skills as string[]
 interface ProfileFormProps {
   onSubmit: (data: UserProfile) => void;
   defaultInterviewType?: InterviewType;
 }
 
 export function ProfileForm({ onSubmit, defaultInterviewType = InterviewType.GENERAL }: ProfileFormProps) {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: '',
@@ -43,8 +46,14 @@ export function ProfileForm({ onSubmit, defaultInterviewType = InterviewType.GEN
     },
   });
 
-  const handleSubmit = (data: z.infer<typeof formSchema>) => {
-    onSubmit(data as UserProfile);
+  // Handle form submission
+  const handleSubmit = (formData: FormValues) => {
+    // Convert the skills string to an array before submitting
+    const profileData: UserProfile = {
+      ...formData,
+      skills: formData.skills.split(',').map((skill: string) => skill.trim()).filter(Boolean)
+    };
+    onSubmit(profileData);
   };
 
   return (
@@ -142,7 +151,7 @@ export function ProfileForm({ onSubmit, defaultInterviewType = InterviewType.GEN
                   <Input placeholder="Senior Software Engineer" {...field} />
                 </FormControl>
                 <FormDescription>
-                  The position you're interviewing for
+                  The position you&apos;re interviewing for
                 </FormDescription>
                 <FormMessage />
               </FormItem>
