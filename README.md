@@ -100,7 +100,7 @@ Built by:
 Feel free to reach out via LinkedIn or Email  
 Gautam Manak - gautammanak1@gmail.com | https://www.linkedin.com/in/gautammanak1/  
 Priyanshi Rami - pr.7140@gmail.com | https://www.linkedin.com/in/prami24/  
-Mayank Panchal
+Mayank Panchal - https://www.linkedin.com/in/mayank-panchal
 
 
 
