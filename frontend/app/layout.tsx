@@ -5,8 +5,9 @@ import { InterviewProvider } from "@/lib/contexts/interview-context";
 
 const lexend = Lexend({
   subsets: ["latin"],
-  variable: "--font-lexend",
+  display: "swap",
 });
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -19,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${lexend.variable} antialiased`}>
+    <html lang="en" className={lexend.className}>
+      <body>
         <InterviewProvider>{children}</InterviewProvider>
       </body>
     </html>
