@@ -9,8 +9,8 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { BookmarkIcon, CheckIcon, ExternalLinkIcon, SearchIcon } from "lucide-react";
-// import { sampleJobs } from "@/lib/sample-data";
-import { fetchJobRecommendations } from "@/lib/get-jobs";
+import { sampleJobs } from "@/lib/sample-data";
+// import { fetchJobRecommendations } from "@/lib/get-jobs";
 import { cn } from "@/lib/utils";
 import { AppSidebar } from "@/components/app-sidebar";
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
@@ -29,8 +29,8 @@ export default async function JobsPage() {
     );
   };
   
-  const jobRecommendations = await fetchJobRecommendations();
-  const filteredJobs = jobRecommendations.filter(job => {
+  // const jobRecommendations = await fetchJobRecommendations();
+  const filteredJobs = sampleJobs.filter(job => {
     // Filter by search term
     const matchesSearch = 
       job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -271,7 +271,7 @@ export default async function JobsPage() {
                   </Card>
                 ) : (
                   <div className="space-y-4">
-                    {jobRecommendations
+                    {sampleJobs
                       .filter(job => savedJobs.includes(job.id))
                       .map((job) => (
                         <Card key={job.id}>
