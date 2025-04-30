@@ -41,8 +41,18 @@ const data = {
   navMain: [
     {
       title: "Home",
-      url: "#",
+      url: "/",
       icon: IconDashboard,
+    },
+    {
+      title: "History",
+      url: "/history",
+      icon: IconFileDescription,
+    },
+    {
+      title: "Jobs",
+      url: "/jobs",
+      icon: Briefcase,
     },
     {
       title: "Dashboard",
@@ -50,75 +60,59 @@ const data = {
       icon: IconChartBar,
     },
     {
-      title: "Jobs",
-      url: "/jobs",
-      icon: Briefcase,
-    },
-
-    {
-      title: "History",
-      url: "/history",
-      icon: IconFileDescription,
-    },
-    {
-      title: "Resource",
-      url: "/resource",
-      icon: IconFolder,
-    },
-    {
-      title: "Resumebuilder",
-      url: "/resumebuilder",
+      title: "Interview AI",
+      url: "/interviewai",
       icon: IconUsers,
-    },
+    }
   ],
-  navClouds: [
-    {
-      title: "Capture",
-      icon: IconCamera,
-      isActive: true,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Proposal",
-      icon: IconFileDescription,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: IconFileAi,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-  ],
+  // navClouds: [
+  //   {
+  //     title: "Capture",
+  //     icon: IconCamera,
+  //     isActive: true,
+  //     url: "#",
+  //     items: [
+  //       {
+  //         title: "Active Proposals",
+  //         url: "#",
+  //       },
+  //       {
+  //         title: "Archived",
+  //         url: "#",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "Proposal",
+  //     icon: IconFileDescription,
+  //     url: "#",
+  //     items: [
+  //       {
+  //         title: "Active Proposals",
+  //         url: "#",
+  //       },
+  //       {
+  //         title: "Archived",
+  //         url: "#",
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     title: "Prompts",
+  //     icon: IconFileAi,
+  //     url: "#",
+  //     items: [
+  //       {
+  //         title: "Active Proposals",
+  //         url: "#",
+  //       },
+  //       {
+  //         title: "Archived",
+  //         url: "#",
+  //       },
+  //     ],
+  //   },
+  // ],
   navSecondary: [
     {
       title: "Settings",
