@@ -53,7 +53,7 @@ export default function InterviewPage() {
                   Interview Practice for Every Role
                 </h2>
                 <p className="mx-auto mt-4 max-w-[700px] text-muted-foreground md:text-xl">
-                  Whether you're applying for technical positions, management roles, or entry-level jobs, we've got you covered.
+                  Whether you&apos;re applying for technical positions, management roles, or entry-level jobs, we&apos;ve got you covered.
                 </p>
               </div>
 

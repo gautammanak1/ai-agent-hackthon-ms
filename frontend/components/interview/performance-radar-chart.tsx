@@ -1,7 +1,6 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   RadarChart,
   PolarGrid,
@@ -26,7 +25,7 @@ export function PerformanceRadarChart({ metrics }: { metrics: MetricsProps }) {
   
   // Transform the metrics into the format needed for the radar chart
   const transformedData = Object.entries(metrics)
-    .filter(([key, value]) => value !== undefined)
+    .filter(([, value]) => value !== undefined)
     .map(([key, value]) => ({
       subject: formatMetricName(key),
       A: value,

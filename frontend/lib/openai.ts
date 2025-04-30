@@ -1,7 +1,7 @@
 const OPENAI_API_KEY = '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';
 const API_URL = 'https://api.openai.com/v1/chat/completions';
 
-import { OpenAIMessage, OpenAIRequest, OpenAIResponse, UserProfile, InterviewType, QuestionType } from './types';
+import { OpenAIMessage, OpenAIRequest, OpenAIResponse, UserProfile, InterviewType } from './types';
 
 /**
  * Send a request to the OpenAI API
@@ -211,6 +211,7 @@ export async function generateInterviewFeedback(
   profile: UserProfile,
   questions: string[],
   responses: string[],
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   analyses: any[]
 ): Promise<{
   overallScore: number;
