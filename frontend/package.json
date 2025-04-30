@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+
+    "copy-pdf-worker": "node copy-pdf-worker.js",
+    "build": " next build",
     "start": "next start",
     "lint": "next lint"
   },
