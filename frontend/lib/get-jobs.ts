@@ -7,7 +7,9 @@ const client = new MongoClient(uri);
 const databaseName = process.env.COSMOS_DB_NAME;
 const collectionName = "career-pilot-db";
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let database: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let collection: any;
 
 async function connectToDatabase() {

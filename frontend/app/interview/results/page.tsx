@@ -18,6 +18,10 @@ import { generatePDF } from '@/lib/pdf-generator';
 import { Download, FileText, Home, Redo, Share2 } from 'lucide-react';
 import Link from 'next/link';
 
+
+// Define the metric keys type for type safety
+type MetricKey = 'clarity' | 'confidence' | 'relevance' | 'completeness' | 'technicalAccuracy';
+
 export default function ResultsPage() {
   const router = useRouter();
   const { userProfile, currentSession, feedback, setFeedback } = useInterview();
@@ -77,15 +81,16 @@ export default function ResultsPage() {
     generateFeedback();
   }, [userProfile, currentSession, feedback, router, setFeedback]);
   
-  const averageMetric = (metric: string) => {
+  const averageMetric = (metric: MetricKey) => {
     const values = currentSession?.responses
-      .filter(r => r.analysis && r.analysis[metric] !== undefined)
-      .map(r => r.analysis[metric]) || [];
-    
+      ?.filter(r => r.analysis && r.analysis[metric] !== undefined)
+      .map(r => r.analysis ? r.analysis[metric] as number : undefined)
+      .filter((val): val is number => val !== undefined) || [];
+  
     return values.length ? Math.round(values.reduce((a, b) => a + b, 0) / values.length) : 0;
   };
   
-  const hasMetric = (metric: string) => {
+  const hasMetric = (metric: MetricKey) => {
     return currentSession?.responses.some(r => r.analysis && r.analysis[metric] !== undefined) || false;
   };
   
@@ -106,7 +111,7 @@ export default function ResultsPage() {
           <div className="w-16 h-16 border-t-4 border-primary rounded-full animate-spin"></div>
           <h1 className="text-2xl font-bold">Generating Your Interview Report</h1>
           <p className="text-muted-foreground text-center max-w-md">
-            We're analyzing your responses and preparing a comprehensive feedback report. This may take a moment...
+            We&apos;re analyzing your responses and preparing a comprehensive feedback report. This may take a moment...
           </p>
         </div>
       </div>
@@ -121,9 +126,9 @@ export default function ResultsPage() {
             <CardTitle>Interview Results Not Available</CardTitle>
           </CardHeader>
           <CardContent>
-            <p>We couldn't find the results for your interview. This might be because:</p>
+            <p>We couldn&apos;t find the results for your interview. This might be because:</p>
             <ul className="list-disc list-inside mt-2 space-y-1">
-              <li>You haven't completed an interview yet</li>
+              <li>You haven&apos;t completed an interview yet</li>
               <li>There was an error processing your interview data</li>
               <li>Your session has expired</li>
             </ul>
