@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { generateCustomResume } from '@/lib/customizedcv';
+import { generateResumeContent } from '@/lib/customizedcv';
 
 export async function POST(req: Request) {
   try {
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
       ${jobDescription}
     `;
 
-    const resume = await generateCustomResume(prompt);
+    const resume = await generateResumeContent(prompt);
     return NextResponse.json({ resume });
 
   } catch (error) {
