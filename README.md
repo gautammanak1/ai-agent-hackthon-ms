@@ -34,29 +34,6 @@ All powered by **Next.js + Azure AI + Cosmos DB**, deployed via **Azure Static W
 | DevOps       | GitHub CI/CD + Azure SWA         |
 | Hosting      | Azure Static Web Apps            |
 
-
-
-## 🚀 Features
-
-### 🔍 ATS Resume Scanner
-- Uses Azure OpenAI to analyze resumes
-- Highlights improvements for ATS compatibility
-
-### 🧠 Job Matching & Recommendation
-- Matches your profile with trending jobs  
-
-### 🗣️ Mock Interviews
-- Role-specific AI interviews
-- Custom scoring & feedback
-
-### 🧾 Resume Builder
-- Builds role-specific resumes in seconds
-- Auto-formats using best practices
-
-### 🧭 Skill Guidance
-- Suggests learning paths based on job interest
-- Maps gaps between your profile & job needs
-  
   
 # ☁️ Azure Setup
 
@@ -81,9 +58,46 @@ All powered by **Next.js + Azure AI + Cosmos DB**, deployed via **Azure Static W
 | CVBuilderAgent     | Tailored resume creation               |
 
 
+## 🚀 Features
 
-# 📸 Screenshots
+### 🔍 ATS Resume Scanner
+- Uses Azure OpenAI to analyze resumes
+- Highlights improvements for ATS compatibility  
+  
+![ats](https://github.com/user-attachments/assets/07eb225d-39bd-4e21-a7f3-014ca000e647)
 
+
+### 🧠 Job Matching & Recommendation
+- Matches your profile with trending jobs  
+  
+
+![Jobs](https://github.com/user-attachments/assets/56beb424-2246-44c8-a81d-43e65c7151f6)
+
+
+### 🗣️ AI Mock Interviews
+- Role-specific AI interviews
+- Custom scoring & feedback  
+  
+
+![aiinterview](https://github.com/user-attachments/assets/fb8a3c85-148d-4d2a-9ef8-91b0a5372afb)
+
+### 🧾 Resume Builder
+- Builds role-specific resumes in seconds
+- Auto-formats using best practices  
+  
+
+![resumegenerate](https://github.com/user-attachments/assets/9edaebb4-c40c-4bcf-a8fb-6c63645d0bd0)
+
+
+### 🧭 Skill Guidance
+- Suggests learning paths based on job interest
+- Maps gaps between your profile & job needs  
+  
+
+![skill](https://github.com/user-attachments/assets/be3c5957-0d4e-4685-a615-2d364c9f865b)
+  
+### History
+![scannedhistory](https://github.com/user-attachments/assets/b014dc92-99f1-45c0-b629-198d177c5246)
 
 
 
