@@ -20,7 +20,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { NavUser } from "@/components/nav-user"
 import { ModeToggle } from "./mode-toggle"
 
 const data = {
