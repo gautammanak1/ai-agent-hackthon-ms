@@ -41,18 +41,8 @@ const data = {
   navMain: [
     {
       title: "Home",
-      url: "/",
+      url: "#",
       icon: IconDashboard,
-    },
-    {
-      title: "History",
-      url: "/history",
-      icon: IconFileDescription,
-    },
-    {
-      title: "Jobs",
-      url: "/jobs",
-      icon: Briefcase,
     },
     {
       title: "Dashboard",
@@ -60,13 +50,24 @@ const data = {
       icon: IconChartBar,
     },
     {
-      title: "Projects",
-      url: "/projects",
+      title: "Jobs",
+      url: "/jobs",
+      icon: Briefcase,
+    },
+
+    {
+      title: "History",
+      url: "/history",
+      icon: IconFileDescription,
+    },
+    {
+      title: "Resource",
+      url: "/resource",
       icon: IconFolder,
     },
     {
-      title: "Team",
-      url: "/team",
+      title: "Resumebuilder",
+      url: "/resumebuilder",
       icon: IconUsers,
     },
   ],
