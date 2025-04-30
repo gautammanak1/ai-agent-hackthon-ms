@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "copy-pdf-worker": "node copy-pdf-worker.js",
-    "build": "npm run copy-pdf-worker && next build",
+    "build": " next build",
     "start": "next start",
     "lint": "next lint"
   },

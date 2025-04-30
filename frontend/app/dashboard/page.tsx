@@ -1,5 +1,5 @@
+import About from "@/components/about"
 import { AppSidebar } from "@/components/app-sidebar"
-import { ResumeAnalyzer } from "@/components/resume-analyzer";
 import { SiteHeader } from "@/components/site-header"
 import {
   SidebarInset,
@@ -22,6 +22,7 @@ export default function Page() {
       <SidebarInset>
         <SiteHeader />
         <div>
+          <About/>
         </div>
       </SidebarInset>
     </SidebarProvider>
