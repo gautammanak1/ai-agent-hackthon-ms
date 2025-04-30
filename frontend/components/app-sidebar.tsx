@@ -41,112 +41,129 @@ const data = {
   navMain: [
     {
       title: "Home",
-      url: "/",
+      url: "/dashboard",
       icon: IconDashboard,
     },
+    // {
+    //   title: "Dashboard",
+    //   url: "/dashboard",
+    //   icon: IconChartBar,
+    // },
     {
-      title: "History",
-      url: "/history",
-      icon: IconFileDescription,
-    },
-    {
-      title: "Jobs",
+      title: "Find Jobs",
       url: "/jobs",
       icon: Briefcase,
     },
+
     {
-      title: "Dashboard",
-      url: "/dashboard",
-      icon: IconChartBar,
+      title: "ATS Resume Scan",
+      url: "/atsresume",
+      icon: IconUsers,
     },
     {
-      title: "Interview AI",
+      title: "AI Interviewer",
       url: "/interviewai",
       icon: IconUsers,
-    }
+    },
+    {
+      title: "Skill Developer",
+      url: "/resource",
+      icon: IconFolder,
+    },
+
+    {
+      title: "Resume Generator",
+      url: "/resumebuilder",
+      icon: IconUsers,
+    },
+    {
+      title: "Your History",
+      url: "/history",
+      icon: IconFileDescription,
+    },
   ],
-  // navClouds: [
+  navClouds: [
+    {
+      title: "Capture",
+      icon: IconCamera,
+      isActive: true,
+      url: "#",
+      items: [
+        {
+          title: "Active Proposals",
+          url: "#",
+        },
+        {
+          title: "Archived",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Proposal",
+      icon: IconFileDescription,
+      url: "#",
+      items: [
+        {
+          title: "Active Proposals",
+          url: "#",
+        },
+        {
+          title: "Archived",
+          url: "#",
+        },
+      ],
+    },
+    {
+      title: "Prompts",
+      icon: IconFileAi,
+      url: "#",
+      items: [
+        {
+          title: "Active Proposals",
+          url: "#",
+        },
+        {
+          title: "Archived",
+          url: "#",
+        },
+      ],
+    },
+  ],
+  // navSecondary: [
   //   {
-  //     title: "Capture",
-  //     icon: IconCamera,
-  //     isActive: true,
-  //     url: "#",
-  //     items: [
-  //       {
-  //         title: "Active Proposals",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Archived",
-  //         url: "#",
-  //       },
-  //     ],
+  //     title: "Settings",
+  //     url: "/settings",
+  //     icon: IconSettings,
   //   },
   //   {
-  //     title: "Proposal",
-  //     icon: IconFileDescription,
-  //     url: "#",
-  //     items: [
-  //       {
-  //         title: "Active Proposals",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Archived",
-  //         url: "#",
-  //       },
-  //     ],
+  //     title: "Get Help",
+  //     url: "/help",
+  //     icon: IconHelp,
   //   },
   //   {
-  //     title: "Prompts",
-  //     icon: IconFileAi,
-  //     url: "#",
-  //     items: [
-  //       {
-  //         title: "Active Proposals",
-  //         url: "#",
-  //       },
-  //       {
-  //         title: "Archived",
-  //         url: "#",
-  //       },
-  //     ],
+  //     title: "Search",
+  //     url: "/search",
+  //     icon: IconSearch,
   //   },
   // ],
-  navSecondary: [
-    {
-      title: "Settings",
-      url: "/settings",
-      icon: IconSettings,
-    },
-    {
-      title: "Get Help",
-      url: "/help",
-      icon: IconHelp,
-    },
-    {
-      title: "Search",
-      url: "/search",
-      icon: IconSearch,
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "/data-library",
-      icon: IconDatabase,
-    },
-    {
-      name: "Reports",
-      url: "/reports",
-      icon: IconReport,
-    },
-    {
-      name: "Word Assistant",
-      url: "/word-assistant",
-      icon: IconFileWord,
-    },
-  ],
+  // documents: [
+  //   {
+  //     name: "Data Library",
+  //     url: "/data-library",
+  //     icon: IconDatabase,
+  //   },
+  //   {
+  //     name: "Reports",
+  //     url: "/reports",
+  //     icon: IconReport,
+  //   },
+  //   {
+  //     name: "Word Assistant",
+  //     url: "/word-assistant",
+  //     icon: IconFileWord,
+  //   },
+  // ],
 }
 
 // Custom NavMain component to ensure Link is used for navigation
@@ -193,8 +210,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        {/* <NavDocuments items={data.documents} />
+        <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />

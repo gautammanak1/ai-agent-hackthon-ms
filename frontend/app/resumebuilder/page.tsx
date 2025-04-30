@@ -53,12 +53,13 @@ export default function Page() {
       <SidebarInset>
         <SiteHeader />
         <div className="container px-4 py-8 md:py-12 mx-auto max-w-5xl">
-          <h1 className="text-3xl font-bold text-center mb-4">Resume Builder</h1>
+          <h1 className="text-3xl font-bold text-center mb-4">AI Resume Generator</h1>
           <p className="text-muted-foreground text-center mb-6">
             Paste a job description to generate a tailored resume using AI. Edit as needed and download.
           </p>
 
           <textarea
+            placeholder='Paste Job Description Here'
             className="w-full min-h-[150px] border rounded-md p-2"
             value={jobDescription}
             onChange={(e) => setJobDescription(e.target.value)}
@@ -66,7 +67,7 @@ export default function Page() {
 
 
           <Button onClick={generateResume} disabled={loading} className="mb-6">
-            {loading ? 'Generating Resume...' : 'Generate Resume'}
+            {loading ? 'Generating Resume...' : 'Generate'}
           </Button>
 
           {resumeText && (
