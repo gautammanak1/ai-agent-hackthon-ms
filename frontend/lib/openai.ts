@@ -1,14 +1,27 @@
-const OPENAI_API_KEY = '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';
+import { OpenAIMessage, OpenAIRequest, OpenAIResponse, UserProfile, InterviewType } from './types';
+// Use environment variable for API key
+const OPENAI_API_KEY = process.env.NEXT_PUBLIC_OPENAI_API_KEY || '';
 const API_URL = 'https://api.openai.com/v1/chat/completions';
 
-import { OpenAIMessage, OpenAIRequest, OpenAIResponse, UserProfile, InterviewType } from './types';
+// Retry configuration
+const MAX_RETRIES = 3;
+const RETRY_DELAY = 1000; // 1 second
 
 /**
- * Send a request to the OpenAI API
+ * Delay utility for retries
  */
-export async function sendOpenAIRequest(messages: OpenAIMessage[]): Promise<OpenAIResponse> {
+const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
+/**
+ * Send a request to the OpenAI API with retry logic
+ */
+export async function sendOpenAIRequest(messages: OpenAIMessage[], retries: number = MAX_RETRIES): Promise<OpenAIResponse> {
+  if (!OPENAI_API_KEY) {
+    throw new Error('OpenAI API key is missing. Please set NEXT_PUBLIC_OPENAI_API_KEY in your environment variables.');
+  }
+
   const request: OpenAIRequest = {
-    model: 'gpt-4',
+    model: 'gpt-4', // Consider 'gpt-4-turbo' for better performance
     messages,
     temperature: 0.7,
   };
@@ -25,18 +38,28 @@ export async function sendOpenAIRequest(messages: OpenAIMessage[]): Promise<Open
 
     if (!response.ok) {
       const errorText = await response.text();
+      console.error(`OpenAI API request failed: ${response.status} ${errorText}`);
+      if (response.status === 429 && retries > 0) {
+        // Handle rate limiting
+        await delay(RETRY_DELAY);
+        return sendOpenAIRequest(messages, retries - 1);
+      }
       throw new Error(`OpenAI API error: ${response.status} ${errorText}`);
     }
 
     return await response.json();
   } catch (error) {
+    if (retries > 0) {
+      await delay(RETRY_DELAY);
+      return sendOpenAIRequest(messages, retries - 1);
+    }
     console.error('Error calling OpenAI API:', error);
     throw error;
   }
 }
 
 /**
- * Generate interview questions based on user profile
+ * Generate interview questions based on user profile, including DSA for technical roles
  */
 export async function generateInterviewQuestions(
   profile: UserProfile, 
@@ -53,22 +76,27 @@ export async function generateInterviewQuestions(
     - Interview type: ${profile.interviewType}
     
     Guidelines for questions:
-    1. For technical roles:
-       - Include system design questions
+    1. For technical roles (interviewType: ${InterviewType.TECHNICAL}):
+       - Include at least one Data Structures and Algorithms (DSA) question focusing on topics like linked lists, trees, graphs, sorting, or searching
+       - Include system design questions relevant to the candidate's skills
        - Ask about specific technologies in their skill set
        - Include problem-solving scenarios
        
-    2. For behavioral questions:
+    2. For behavioral questions (interviewType: ${InterviewType.BEHAVIORAL}):
        - Focus on leadership and team collaboration
        - Include conflict resolution scenarios
        - Ask about project management experience
        
-    3. For case studies:
+    3. For case studies (interviewType: ${InterviewType.CASE_STUDY}):
        - Create industry-specific scenarios
        - Include data analysis components
        - Focus on strategic thinking
        
-    4. Question structure:
+    4. For general interviews (interviewType: ${InterviewType.GENERAL}):
+       - Mix behavioral, situational, and experience-based questions
+       - Avoid overly technical questions unless specified in skills
+       
+    5. Question structure:
        - Be specific and detailed
        - Avoid yes/no questions
        - Include follow-up components
@@ -81,7 +109,7 @@ export async function generateInterviewQuestions(
   const messages: OpenAIMessage[] = [
     { 
       role: 'system', 
-      content: 'You are an expert technical interviewer with deep knowledge of industry best practices, system design, and modern technology stacks. Generate challenging but fair interview questions that assess both technical depth and practical experience.' 
+      content: 'You are an expert technical interviewer with deep knowledge of industry best practices, system design, modern technology stacks, and Data Structures and Algorithms (DSA). Generate challenging but fair interview questions that assess both technical depth and practical experience.' 
     },
     { role: 'user', content: prompt }
   ];
@@ -90,10 +118,16 @@ export async function generateInterviewQuestions(
     const response = await sendOpenAIRequest(messages);
     const content = response.choices[0].message.content;
     
-    // Extract questions - assuming each question is on a new line
-    return content.split('\n')
+    // Extract questions
+    const questions = content.split('\n')
       .map(line => line.trim())
       .filter(line => line.length > 0 && line.endsWith('?'));
+    
+    if (questions.length < count) {
+      console.warn(`Generated only ${questions.length} questions instead of ${count}`);
+    }
+    
+    return questions;
   } catch (error) {
     console.error('Error generating interview questions:', error);
     throw error;
@@ -128,6 +162,7 @@ export async function analyzeResponse(
     - Industry: ${profile.industry}
     - Experience: ${profile.yearsOfExperience} years
     - Skills: ${profile.skills.join(', ')}
+    - Interview type: ${profile.interviewType}
     
     Evaluation Criteria:
     1. Clarity (0-100):
@@ -155,6 +190,7 @@ export async function analyzeResponse(
        - Correct technical concepts
        - Appropriate use of terminology
        - Understanding of best practices
+       - For DSA questions, evaluate algorithmic correctness, time/space complexity, and code efficiency
     ` : ''}
     
     Provide:
@@ -178,25 +214,14 @@ export async function analyzeResponse(
   const messages: OpenAIMessage[] = [
     { 
       role: 'system', 
-      content: 'You are an expert interview coach that analyzes candidate responses and provides constructive feedback. Return your response as a JSON object without markdown code fences.' 
+      content: 'You are an expert interview coach that analyzes candidate responses and provides constructive feedback. Return your response as a JSON object.' 
     },
     { role: 'user', content: prompt }
   ];
 
   try {
     const response = await sendOpenAIRequest(messages);
-    let content = response.choices[0].message.content;
-    
-    // Handle case where content is wrapped in markdown code fences
-    if (content.startsWith('```json')) {
-      content = content.substring(7);
-    }
-    if (content.endsWith('```')) {
-      content = content.substring(0, content.length - 3);
-    }
-    content = content.trim();
-    
-    // Parse the JSON response
+    const content = response.choices[0].message.content;
     return JSON.parse(content);
   } catch (error) {
     console.error('Error analyzing response:', error);
@@ -211,7 +236,6 @@ export async function generateInterviewFeedback(
   profile: UserProfile,
   questions: string[],
   responses: string[],
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   analyses: any[]
 ): Promise<{
   overallScore: number;
@@ -220,7 +244,6 @@ export async function generateInterviewFeedback(
   recommendations: string[];
   summary: string;
 }> {
-  // Create a summary of the interview
   let interviewSummary = `Interview Summary:\n`;
   
   for (let i = 0; i < questions.length; i++) {
@@ -229,7 +252,7 @@ export async function generateInterviewFeedback(
     
     if (analyses[i]) {
       interviewSummary += `Analysis: Clarity: ${analyses[i].clarity}, Confidence: ${analyses[i].confidence}, ` +
-        `Relevance: ${analyses[i].relevance}, Completeness: ${analyses[i].completeness}\n`;
+        `Relevance: ${analyses[i].relevance}, Completeness: ${analyses[i].completeness}${analyses[i].technicalAccuracy ? `, Technical Accuracy: ${analyses[i].technicalAccuracy}` : ''}\n`;
     }
   }
 
@@ -241,13 +264,14 @@ export async function generateInterviewFeedback(
     - Industry: ${profile.industry}
     - Experience: ${profile.yearsOfExperience} years
     - Skills: ${profile.skills.join(', ')}
+    - Interview type: ${profile.interviewType}
     
     ${interviewSummary}
     
     Evaluation Guidelines:
     1. Overall Score (0-100):
        - Consider response quality across all questions
-       - Weight technical accuracy heavily for technical roles
+       - Weight technical accuracy heavily for technical roles, especially for DSA questions
        - Account for experience level expectations
        
     2. Key Strengths:
@@ -262,7 +286,7 @@ export async function generateInterviewFeedback(
        
     4. Recommendations:
        - Provide actionable next steps
-       - Suggest learning resources
+       - Suggest learning resources (e.g., for DSA: LeetCode, Cracking the Coding Interview)
        - Include practice strategies
        
     5. Summary:
@@ -283,25 +307,14 @@ export async function generateInterviewFeedback(
   const messages: OpenAIMessage[] = [
     { 
       role: 'system', 
-      content: 'You are an expert interview coach that provides comprehensive feedback to help candidates improve. Return your response as a JSON object without markdown code fences.' 
+      content: 'You are an expert interview coach that provides comprehensive feedback to help candidates improve. Return your response as a JSON object.' 
     },
     { role: 'user', content: prompt }
   ];
 
   try {
     const response = await sendOpenAIRequest(messages);
-    let content = response.choices[0].message.content;
-    
-    // Handle case where content is wrapped in markdown code fences
-    if (content.startsWith('```json')) {
-      content = content.substring(7);
-    }
-    if (content.endsWith('```')) {
-      content = content.substring(0, content.length - 3);
-    }
-    content = content.trim();
-    
-    // Parse the JSON response
+    const content = response.choices[0].message.content;
     return JSON.parse(content);
   } catch (error) {
     console.error('Error generating interview feedback:', error);
