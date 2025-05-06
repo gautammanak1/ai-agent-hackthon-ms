@@ -99,7 +99,8 @@ All powered by **Next.js + Azure AI + Cosmos DB**, deployed via **Azure Static W
 ### History
 ![scannedhistory](https://github.com/user-attachments/assets/b014dc92-99f1-45c0-b629-198d177c5246)
 
-
+### Video
+https://drive.google.com/file/d/1QACB0U2j51pPH7YY-wZaAnPwhcAPqz9y/view?usp=drive_open
 
 
 # 📣 Credits  
