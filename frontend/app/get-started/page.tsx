@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, Suspense } from 'react';
+import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ProfileForm } from '@/components/interview/profile-form';
 import { useInterview } from '@/lib/contexts/interview-context';
 import { InterviewType, UserProfile } from '@/lib/types';
-import { ArrowLeft, Users } from 'lucide-react';
+import { Code,BriefcaseBusiness,BookOpen, ArrowLeft, Users } from 'lucide-react';
 import Link from 'next/link';
 import { InterviewProvider } from '@/lib/contexts/interview-context';
 // side navbar
@@ -16,14 +16,16 @@ import { AppSidebar } from '@/components/app-sidebar';
 import { SiteHeader } from '@/components/site-header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
 
-// Create a separate component for the content that uses useSearchParams
-function InterviewContent() {
+
+
+
+export default function GetStartedPage() {
+ 
   const router = useRouter();
   const searchParams = useSearchParams();
   const interviewTypeParam = searchParams.get('type');
   const [activeTab, setActiveTab] = useState<string>('profile');
   const { updateProfile } = useInterview();
-  
   // Map URL param to InterviewType enum
   const getInterviewTypeFromParam = (param: string | null): InterviewType => {
     switch (param) {
@@ -54,9 +56,22 @@ function InterviewContent() {
   const handleStartInterview = () => {
     router.push('/interview');
   };
-
+  
   return (
     <>
+     <SidebarProvider
+        style={
+          {
+            "--sidebar-width": "calc(var(--spacing) * 72)",
+            "--header-height": "calc(var(--spacing) * 12)",
+          } as React.CSSProperties
+        }
+      >
+        <AppSidebar variant="inset" />
+        <SidebarInset>
+          <SiteHeader />
+    <InterviewProvider>
+    <div className="flex flex-col min-h-screen">
       <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-sm">
         <div className="container flex h-16 items-center justify-between">
           <div className="flex items-center gap-2">
@@ -160,40 +175,10 @@ function InterviewContent() {
           </div>
         </div>
       </main>
-    </>
-  );
-}
-
-// Loading fallback component
-function LoadingInterviewContent() {
-  return (
-    <div className="flex flex-col min-h-screen items-center justify-center">
-      <p className="text-lg">Loading interview setup...</p>
     </div>
-  );
-}
-
-export default function GetStartedPage() {
-  return (
-    <SidebarProvider
-      style={
-        {
-          "--sidebar-width": "calc(var(--spacing) * 72)",
-          "--header-height": "calc(var(--spacing) * 12)",
-        } as React.CSSProperties
-      }
-    >
-      <AppSidebar variant="inset" />
-      <SidebarInset>
-        <SiteHeader />
-        <InterviewProvider>
-          <div className="flex flex-col min-h-screen">
-            <Suspense fallback={<LoadingInterviewContent />}>
-              <InterviewContent />
-            </Suspense>
-          </div>
-        </InterviewProvider>
-      </SidebarInset>
-    </SidebarProvider>
+    </InterviewProvider>
+    </SidebarInset>
+      </SidebarProvider>
+    </>
   );
 }

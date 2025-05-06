@@ -1,7 +1,10 @@
 import { OpenAIMessage, OpenAIRequest, OpenAIResponse, UserProfile, InterviewType } from './types';
-// Use environment variable for API key
-const OPENAI_API_KEY = process.env.NEXT_PUBLIC_OPENAI_API_KEY || '';
-const API_URL = 'https://api.openai.com/v1/chat/completions';
+
+// Hardcoded Azure Open AI configuration
+const AZURE_OPENAI_API_KEY = '8pBE70i7j9rjTmzcjstAacUm9kMAjPYQtIgp77QiRuHhoFRMD1TMJQQJ99BDACYeBjFXJ3w3AAABACOGh0ei';
+const AZURE_OPENAI_ENDPOINT = 'https://career-pilot-openai.openai.azure.com/';
+const AZURE_OPENAI_DEPLOYMENT = 'gpt-35-turbo';
+const API_URL = `${AZURE_OPENAI_ENDPOINT}/openai/deployments/${AZURE_OPENAI_DEPLOYMENT}/chat/completions?api-version=2023-05-15`;
 
 // Retry configuration
 const MAX_RETRIES = 3;
@@ -13,15 +16,11 @@ const RETRY_DELAY = 1000; // 1 second
 const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
 /**
- * Send a request to the OpenAI API with retry logic
+ * Send a request to the Azure Open AI API with retry logic
  */
 export async function sendOpenAIRequest(messages: OpenAIMessage[], retries: number = MAX_RETRIES): Promise<OpenAIResponse> {
-  if (!OPENAI_API_KEY) {
-    throw new Error('OpenAI API key is missing. Please set NEXT_PUBLIC_OPENAI_API_KEY in your environment variables.');
-  }
-
   const request: OpenAIRequest = {
-    model: 'gpt-4', // Consider 'gpt-4-turbo' for better performance
+    model: AZURE_OPENAI_DEPLOYMENT, // Use the Azure deployment name (e.g., gpt-35-turbo)
     messages,
     temperature: 0.7,
   };
@@ -31,20 +30,20 @@ export async function sendOpenAIRequest(messages: OpenAIMessage[], retries: numb
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        'api-key': AZURE_OPENAI_API_KEY, // Azure uses 'api-key' header
       },
       body: JSON.stringify(request),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error(`OpenAI API request failed: ${response.status} ${errorText}`);
+      console.error(`Azure Open AI API request failed: ${response.status} ${errorText}`);
       if (response.status === 429 && retries > 0) {
         // Handle rate limiting
         await delay(RETRY_DELAY);
         return sendOpenAIRequest(messages, retries - 1);
       }
-      throw new Error(`OpenAI API error: ${response.status} ${errorText}`);
+      throw new Error(`Azure Open AI API error: ${response.status} ${errorText}`);
     }
 
     return await response.json();
@@ -53,7 +52,7 @@ export async function sendOpenAIRequest(messages: OpenAIMessage[], retries: numb
       await delay(RETRY_DELAY);
       return sendOpenAIRequest(messages, retries - 1);
     }
-    console.error('Error calling OpenAI API:', error);
+    console.error('Error calling Azure Open AI API:', error);
     throw error;
   }
 }
