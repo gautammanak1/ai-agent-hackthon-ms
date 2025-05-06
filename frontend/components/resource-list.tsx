@@ -1,119 +1,82 @@
-"use client"
+"use client";
 
-import { BookOpen, Video, Globe, Code, FileText, Podcast, Youtube, Github } from "lucide-react"
-import type { Resource } from "@/types/roadmap"
-import { Badge } from "@/components/ui/badge"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { cn } from "@/lib/utils"
+import { motion } from "framer-motion";
+import { ExternalLink, Book, Video, Globe, Code2, Mic, BookOpen } from "lucide-react";
+import type { Resource } from "@/types/roadmap";
 
 interface ResourceListProps {
-  resources: Resource[]
+  resources: Resource[];
 }
 
 export default function ResourceList({ resources }: ResourceListProps) {
-  // Group resources by type
-  const groupedResources = resources.reduce(
-    (acc, resource) => {
-      if (!acc[resource.type]) {
-        acc[resource.type] = []
-      }
-      acc[resource.type].push(resource)
-      return acc
-    },
-    {} as Record<string, Resource[]>,
-  )
-
   return (
-    <div className="space-y-6">
-      {Object.entries(groupedResources).map(([type, typeResources]) => (
-        <div key={type} className="space-y-3">
-          <h3 className="text-lg font-semibold flex items-center">
-            {getResourceTypeIcon(type)}
-            <span className="ml-2">{formatResourceType(type)}</span>
-          </h3>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {typeResources.map((resource, index) => (
-              <Card key={index} className="border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900">
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-base">{resource.title}</CardTitle>
-                  <CardDescription className="line-clamp-2 text-gray-600 dark:text-gray-300">
-                    {resource.description}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="pb-2">
-                  {resource.url && (
-                    <a
-                      href={resource.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-black dark:text-white hover:underline flex items-center font-medium"
-                    >
-                      <Globe className="w-3 h-3 mr-1" />
-                      Visit Resource
-                    </a>
-                  )}
-                </CardContent>
-                <CardFooter>
-                  <div className="flex flex-wrap gap-2">
-                    {resource.level && (
-                      <Badge
-                        variant="outline"
-                        className={cn(
-                          "border-black dark:border-white",
-                          resource.level === "beginner" && "bg-gray-100 text-black dark:bg-gray-800 dark:text-white",
-                          resource.level === "intermediate" &&
-                            "bg-gray-200 text-black dark:bg-gray-700 dark:text-white",
-                          resource.level === "advanced" && "bg-gray-300 text-black dark:bg-gray-600 dark:text-white",
-                        )}
-                      >
-                        {resource.level}
-                      </Badge>
-                    )}
-                    {resource.tags &&
-                      resource.tags.map((tag, tagIndex) => (
-                        <Badge
-                          key={tagIndex}
-                          variant="secondary"
-                          className="bg-gray-100 text-black dark:bg-gray-800 dark:text-white"
-                        >
-                          {tag}
-                        </Badge>
-                      ))}
-                  </div>
-                </CardFooter>
-              </Card>
-            ))}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {resources.map((resource, index) => (
+        <motion.div
+          key={index}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: index * 0.1 }}
+          className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-6 shadow-lg hover:shadow-xl transition-shadow"
+        >
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              {getResourceIcon(resource.type)}
+              <h3 className="font-semibold text-lg text-gray-900 dark:text-white">{resource.title}</h3>
+            </div>
+            <span className="text-sm text-gray-500 dark:text-gray-400 capitalize">{resource.level}</span>
           </div>
-        </div>
+
+          <p className="text-gray-600 dark:text-gray-300 mb-4">{resource.description}</p>
+
+          <div className="flex items-center justify-between">
+            <div className="flex gap-2">
+              {resource.tags?.map((tag) => (
+                <span
+                  key={tag}
+                  className="text-xs bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 px-2 py-1 rounded"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <span className="text-sm text-gray-500 dark:text-gray-400">{resource.cost}</span>
+          </div>
+
+          {resource.url && (
+            <a
+              href={resource.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 flex items-center text-blue-600 dark:text-blue-400 hover:underline"
+            >
+              <ExternalLink className="w-4 h-4 mr-1" />
+              View Resource
+            </a>
+          )}
+        </motion.div>
       ))}
     </div>
-  )
+  );
 }
 
-function getResourceTypeIcon(type: string) {
+function getResourceIcon(type: string) {
   switch (type) {
     case "book":
-      return <BookOpen className="w-5 h-5" />
+      return <Book className="w-4 h-4 text-blue-500" />;
     case "video":
-      return <Video className="w-5 h-5" />
-    case "course":
-      return <FileText className="w-5 h-5" />
-    case "website":
-      return <Globe className="w-5 h-5" />
-    case "repository":
-      return <Github className="w-5 h-5" />
-    case "tutorial":
-      return <Code className="w-5 h-5" />
     case "youtube":
-      return <Youtube className="w-5 h-5" />
+      return <Video className="w-4 h-4 text-blue-500" />;
+    case "course":
+    case "tutorial":
+      return <BookOpen className="w-4 h-4 text-blue-500" />;
+    case "website":
+      return <Globe className="w-4 h-4 text-blue-500" />;
+    case "repository":
+      return <Code2 className="w-4 h-4 text-blue-500" />;
     case "podcast":
-      return <Podcast className="w-5 h-5" />
+      return <Mic className="w-4 h-4 text-blue-500" />;
     default:
-      return <BookOpen className="w-5 h-5" />
+      return <Globe className="w-4 h-4 text-blue-500" />;
   }
-}
-
-function formatResourceType(type: string): string {
-  return type.charAt(0).toUpperCase() + type.slice(1) + "s"
 }

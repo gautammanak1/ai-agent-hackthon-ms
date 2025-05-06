@@ -1,20 +1,21 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import * as z from "zod"
-import { Loader2 } from "lucide-react"
+import { useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { motion, AnimatePresence } from "framer-motion";
+import { Loader2, BookOpen, Code } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { generateRoadmap } from "@/app/actions/generate-roadmap"
-import RoadmapModal from "@/components/roadmap-modal"
-import type { Roadmap } from "@/types/roadmap"
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { generateRoadmap } from "@/app/actions/generate-roadmap";
+import RoadmapModal from "@/components/roadmap-modal";
+import type { Roadmap } from "@/types/roadmap";
 
 const formSchema = z.object({
   category: z.enum(["education", "software"], {
@@ -32,12 +33,13 @@ const formSchema = z.object({
   timeframe: z.enum(["1month", "3months", "6months", "1year"], {
     required_error: "Please select a timeframe.",
   }),
-})
+});
 
 export default function RoadmapGenerator() {
-  const [isGenerating, setIsGenerating] = useState(false)
-  const [roadmap, setRoadmap] = useState<Roadmap | null>(null)
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [roadmap, setRoadmap] = useState<Roadmap | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -48,28 +50,41 @@ export default function RoadmapGenerator() {
       goals: "",
       timeframe: "3months",
     },
-  })
+  });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsGenerating(true)
+    setIsGenerating(true);
+    setError(null);
     try {
-      const generatedRoadmap = await generateRoadmap(values)
-      setRoadmap(generatedRoadmap)
-      setIsModalOpen(true)
+      const generatedRoadmap = await generateRoadmap(values);
+      setRoadmap(generatedRoadmap);
+      setIsModalOpen(true);
     } catch (error) {
-      console.error("Failed to generate roadmap:", error)
+      setError(error instanceof Error ? error.message : "Failed to generate roadmap. Please try again.");
     } finally {
-      setIsGenerating(false)
+      setIsGenerating(false);
     }
   }
 
   return (
-    <>
-      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-800">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8 max-w-2xl w-full border border-gray-200 dark:border-gray-700"
+      >
+        <h1 className="text-3xl font-bold text-center mb-6 text-gray-900 dark:text-white">
+          Create Your Learning Roadmap
+        </h1>
         <Tabs defaultValue="education" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 mb-6 bg-gray-100 dark:bg-gray-800">
-            <TabsTrigger value="education">Education</TabsTrigger>
-            <TabsTrigger value="software">Software Development</TabsTrigger>
+          <TabsList className="grid grid-cols-2 mb-6 bg-gray-100 dark:bg-gray-800 rounded-lg">
+            <TabsTrigger value="education" className="flex items-center gap-2">
+              <BookOpen className="w-4 h-4" /> Education
+            </TabsTrigger>
+            <TabsTrigger value="software" className="flex items-center gap-2">
+              <Code className="w-4 h-4" /> Software Development
+            </TabsTrigger>
           </TabsList>
 
           <Form {...form}>
@@ -77,14 +92,13 @@ export default function RoadmapGenerator() {
               <FormField
                 control={form.control}
                 name="category"
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                render={({ field }: { field: any }) => (
+                render={({ field }) => (
                   <FormItem className="hidden">
                     <FormControl>
                       <Select
                         onValueChange={(value: "education" | "software") => {
-                          field.onChange(value)
-                          form.setValue("topic", "")
+                          field.onChange(value);
+                          form.setValue("topic", "");
                         }}
                         defaultValue={field.value}
                       >
@@ -103,42 +117,45 @@ export default function RoadmapGenerator() {
               />
 
               <TabsContent value="education">
-                <div className="space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="topic"
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    render={({ field }: { field: any }) => (
-                      <FormItem>
-                        <FormLabel>Educational Topic</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g. Machine Learning, History, Mathematics" {...field} />
-                        </FormControl>
-                        <FormDescription>Enter the subject or field you want to learn about.</FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                <FormField
+                  control={form.control}
+                  name="topic"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Educational Topic</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g. Machine Learning, History, Mathematics"
+                          className="rounded-lg"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>Enter the subject or field you want to learn about.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </TabsContent>
 
               <TabsContent value="software">
-                <div className="space-y-4">
-                  <FormField
-                    control={form.control}
-                    name="topic"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Development Topic</FormLabel>
-                        <FormControl>
-                          <Input placeholder="e.g. Web Development, Mobile Apps, DevOps" {...field} />
-                        </FormControl>
-                        <FormDescription>Enter the technology or development area you want to learn.</FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
+                <FormField
+                  control={form.control}
+                  name="topic"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Development Topic</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="e.g. Web Development, Mobile Apps, DevOps"
+                          className="rounded-lg"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormDescription>Enter the technology or development area you want to learn.</FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </TabsContent>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -150,7 +167,7 @@ export default function RoadmapGenerator() {
                       <FormLabel>Current Level</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger className="rounded-lg">
                             <SelectValue placeholder="Select your current level" />
                           </SelectTrigger>
                         </FormControl>
@@ -174,7 +191,7 @@ export default function RoadmapGenerator() {
                       <FormLabel>Timeframe</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                          <SelectTrigger>
+                          <SelectTrigger className="rounded-lg">
                             <SelectValue placeholder="Select your timeframe" />
                           </SelectTrigger>
                         </FormControl>
@@ -201,7 +218,7 @@ export default function RoadmapGenerator() {
                     <FormControl>
                       <Textarea
                         placeholder="Describe what you want to achieve with this learning path..."
-                        className="min-h-[120px]"
+                        className="min-h-[120px] rounded-lg"
                         {...field}
                       />
                     </FormControl>
@@ -211,9 +228,19 @@ export default function RoadmapGenerator() {
                 )}
               />
 
+              {error && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="text-red-500 text-sm"
+                >
+                  {error}
+                </motion.p>
+              )}
+
               <Button
                 type="submit"
-                className="w-full bg-black text-white dark:bg-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200"
+                className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white hover:from-blue-700 hover:to-indigo-700 rounded-lg py-3 transition-all duration-300"
                 disabled={isGenerating}
               >
                 {isGenerating ? (
@@ -228,9 +255,13 @@ export default function RoadmapGenerator() {
             </form>
           </Form>
         </Tabs>
-      </div>
+      </motion.div>
 
-      {roadmap && <RoadmapModal roadmap={roadmap} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />}
-    </>
-  )
+      <AnimatePresence>
+        {roadmap && (
+          <RoadmapModal roadmap={roadmap} isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        )}
+      </AnimatePresence>
+    </div>
+  );
 }
